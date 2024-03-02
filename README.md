@@ -36,7 +36,7 @@ Download latest released version [here](https://github.com/spmohara/P4-Search/re
 #### Search button:
 ![GUI Search button](images/GUI%20Search%20button.png)
 - Initiates the file search.
-    - The **Enter** key can also be used.
+- The **Enter** key can also be used.
 
 #### Status label:
 ![GUI Status label](images/GUI%20Status%20label.png)
@@ -69,9 +69,15 @@ Download latest released version [here](https://github.com/spmohara/P4-Search/re
 ![MsgBox Missing pattern](images/MsgBox%20Missing%20pattern.png)
 - Indicates the Pattern field is empty.
 
-#### User login required:
-![MsgBox User login required](images/MsgBox%20User%20login%20required.png)
+#### User not logged in:
+![MsgBox User not logged in](images/MsgBox%20User%20not%20logged%20in.png)
 - Indicates the user is not logged in.
+- Open the Perforce Helix Visual Client (P4V) software to login and then select the **Retry** button.
+- Selecting the **Cancel** button will close the error message.
+
+#### User session expired:
+![MsgBox User session expired](images/MsgBox%20User%20session%20expired.png)
+- Indicates the user session has expired.
 - Open the Perforce Helix Visual Client (P4V) software to login and then select the **Retry** button.
 - Selecting the **Cancel** button will close the error message.
 
