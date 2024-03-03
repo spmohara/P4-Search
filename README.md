@@ -25,9 +25,9 @@ Download latest released version [here](https://github.com/spmohara/P4-Search/re
 ![GUI Pattern field literal text](images/GUI%20Pattern%20field%20text.png)
 - Specifies the literal text to match.
 
-#### Pattern field using regular expression pattern:
+#### Pattern field using regular expression:
 ![GUI Pattern field regex](images/GUI%20Pattern%20field%20regex.png)
-- Specifies the regular expression pattern to match.
+- Specifies the regular expression to match.
 
 #### Case Sensitive checkbox:
 ![GUI Case Sensitive checkbox](images/GUI%20Case%20Sensitive%20checkbox.png)
