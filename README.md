@@ -81,10 +81,18 @@ Download latest released version [here](https://github.com/spmohara/P4-Search/re
 - Open the [Perforce Helix Visual Client (P4V)](https://www.perforce.com/downloads/helix-visual-client-p4v) software to login and then select the **Retry** button.
 - Selecting the **Cancel** button will close the error message.
 
+#### No such client:
+![MsgBox No such client](images/MsgBox%20No%20such%20client.png)
+- Indicates the client (or user) lacks permission to access local files.
+- Either create a new workspace and specify the correct client for 'Workspace name' field, or edit existing workspace.
+    - **Note**: Editing an existing workspace may cause local workspace files to no longer be available.
+- Selecting the **Cancel** button will close the error message.
+
 #### Client root conflict:
 ![MsgBox Client root conflict](images/MsgBox%20Client%20root%20conflict.png)
 - Indicates the Path field points to a different folder that isn't the client's root.
-- It is recommended to not change this field manually, but to create a new workspace and specify there instead.
+- Either create a new workspace and specify the desired folder path for 'Workspace root' field, or edit existing workspace.
+    - **Note**: Editing an existing workspace may cause local workspace files to no longer be available.
 - Selecting the **Cancel** button will close the error message.
 
 # Dependencies

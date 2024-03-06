@@ -4,7 +4,7 @@ import mbox
 import subprocess
 import time
 
-VERSION = 'v1.0.0'
+VERSION = 'v1.0.1'
 GUI_TITLE = 'P4 Search'
 GUI_ICON = 'searching.ico'
 
@@ -40,7 +40,7 @@ def define_layout():
             sg.Button('Search', bind_return_key=True)
         ],
         [sg.Checkbox('Case Sensitive', key='-CASE-', tooltip='Case sensitivity of search pattern')],
-        [sg.Text('Output')],
+        [sg.Text('Output:')],
         [sg.Multiline(size=(120, 20), key='-OUTPUT-', horizontal_scroll=True, disabled=True)],
         [sg.Text('Status: Idle', key='-STATUS-', tooltip='Progress of the file search'), sg.Push(), sg.Text(VERSION)]
     ]
@@ -84,22 +84,22 @@ def start_event(window):
             elif not pattern:
                 show_error('Missing pattern')
             else:
-                update_GUI_element(window, '-OUTPUT-', refresh=True)
+                update_gui(window, '-OUTPUT-', force=True)
                 file_manager.change_directory(path)
                 args = ['-n', '-s', '-e', pattern, file_manager.get_base_name(path) + '\*\*.py']
                 if not case:
                     args.insert(0, '-i')
-                update_GUI_element(window, '-STATUS-', 'Status: In Progress', refresh=True)
+                update_gui(window, '-STATUS-', 'Status: In Progress', force=True)
                 output = send_command(args)
-                if output != 'CANCEL':
-                    total, results = (len(output.splitlines()), output) if output else (0, '')
-                    update_GUI_element(window, '-OUTPUT-', f'**{total} matches found**\n{results}')
-                    update_GUI_element(window, '-STATUS-', 'Status: Complete', refresh=True)
+                if isinstance(output, str):
+                    total_matches, matches = (len(output.splitlines()), output) if output else (0, '')
+                    update_gui(window, '-OUTPUT-', f'**{total_matches} matches found**\n{matches}')
+                    update_gui(window, '-STATUS-', 'Status: Complete', force=True)
                     time.sleep(1)
-                update_GUI_element(window, '-STATUS-', 'Status: Idle')
+                update_gui(window, '-STATUS-', 'Status: Idle')
     window.close()
 
-def update_GUI_element(window, key, value='', refresh=False):
+def update_gui(window, key, value='', force=False):
     """ Updates the GUI window element based on the provided key and value.
 
     Parameters
@@ -113,11 +113,11 @@ def update_GUI_element(window, key, value='', refresh=False):
     value: str
         The value of the GUI window element.
 
-    refresh: bool
-        Whether or not to force the GUI window to refresh.
+    force: bool
+        Whether or not to force the GUI window element to refresh.
     """
     window[key].update(value)
-    if refresh:
+    if force:
         window.refresh()
 
 def send_command(args):
@@ -127,19 +127,24 @@ def send_command(args):
     ----------
     args: list
         The list of command arguments.
+
+    Returns
+    -------
+    str or ``None``
+        All line matches or ``None``.
     """
-    cmd = ['p4', 'grep'] + args
-    result = subprocess.run(cmd, capture_output=True)
     try:
-        error = result.stderr.decode()
-        if error:
-            btn_select = show_error(error, 'RETRYCANCEL')
-            return send_command(args) if btn_select == 'RETRY' else btn_select
-        else:
-            return result.stdout.decode()
+        cmd = ['p4', 'grep'] + args
+        output = subprocess.run(cmd, capture_output=True)
+        matches = output.stdout.decode()
+        errors = output.stderr.decode()
     except Exception as e:
         show_error(str(e))
-        return 'CANCEL'
+    else:
+        if errors:
+            if show_error(errors, 'RETRYCANCEL') == 'RETRY':
+                return send_command(args)
+        return matches
 
 def show_error(text, button='OK'):
     """ Shows an error message box based on the provided text and button.
@@ -148,6 +153,13 @@ def show_error(text, button='OK'):
     ----------
     text: str
         The text shown on message box.
+
+    Returns
+    -------
+    str
+        The button the user clicked on message box.
+            ``'OK'``, ``'CANCEL'``, ``'ABORT'``,  ``'RETRY'``,
+            ``'IGNORE'``,  ``'YES'``, ``'NO'``, ``'TRYAGAIN'``, ``'CONTINUE'``
     """
     return mbox.show(title=GUI_TITLE, text=text, icon='ICONERROR', button=button)
 
