@@ -15,7 +15,7 @@ An intuitive GUI-based Python application allowing a user to effortlessly search
 Download latest released version [here](https://github.com/spmohara/P4-Search/releases/tag/v1.0.0)
 
 # Usage
-<img src="images/GUI%20Initialize.png" width="700" alt="GUI Initialize">
+<img src="images/GUI%20Initialize.png" width="600" alt="GUI Initialize">
 
 #### Path field:
 ![GUI Path field](images/GUI%20Path%20field.png)
@@ -51,7 +51,7 @@ Download latest released version [here](https://github.com/spmohara/P4-Search/re
 
 # Examples
 #### Output example with matches found:
-![GUI Output example matches](images/GUI%20Output%20example%20matches.png)
+<img src="images/GUI%20Output%20example%20matches.png" width="700" alt="GUI Output example matches">
 
 #### Output example with no matches found:
 ![GUI Output example no matches](images/GUI%20Output%20example%20no%20matches.png)
